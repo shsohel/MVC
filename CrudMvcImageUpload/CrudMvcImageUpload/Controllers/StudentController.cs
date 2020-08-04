@@ -34,15 +34,12 @@ namespace CrudMvcImageUpload.Controllers
 
             if (ModelState.IsValid)
             {
-
                 string fileName = Path.GetFileNameWithoutExtension(std.PhotoPath.FileName);
                 string extension = Path.GetExtension(std.PhotoPath.FileName);
                 fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
                 std.StudentPhoto = "~/Images/" + fileName;
                 fileName = Path.Combine(Server.MapPath("~/Images/"), fileName);
                 std.PhotoPath.SaveAs(fileName);
-
-
 
                 db.Students.Add(std);
 
@@ -77,51 +74,7 @@ namespace CrudMvcImageUpload.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Student std)
         {
-            //if (ModelState.IsValid)
-            //{
-
-            //    if (std.PhotoPath != null)
-            //    {
-            //        string fileName = Path.GetFileNameWithoutExtension(std.PhotoPath.FileName);
-            //        string extension = Path.GetExtension(std.PhotoPath.FileName);
-            //        fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-            //        std.StudentPhoto = "~/Images/" + fileName;
-            //        std.PhotoPath.SaveAs(Path.Combine(Server.MapPath("~/Images/"), fileName));
-
-            //    }
-
-
-            //    db.Entry(std).State = EntityState.Modified;
-            //    db.SaveChanges();
-
-
-
-            //    return RedirectToAction("Index");
-            //}
-
-            //return View();
-
-
-
-            var validImageTypes = new string[]
-            {
-              "image/gif",
-              "image/jpeg",
-              "image/pjpeg",
-              "image/png"
-            };
-
-
-            if (std.PhotoPath != null)
-            {
-                if (std.PhotoPath.ContentLength > 0)
-                {
-
-                    if (!validImageTypes.Contains(std.PhotoPath.ContentType))
-                        ModelState.AddModelError("PhotoPath", "Please choose either a GIF, JPG or PNG image.");
-                }
-            }
-
+            
             if (ModelState.IsValid)
             {
                 var image = db.Students.Find(id);
@@ -130,9 +83,12 @@ namespace CrudMvcImageUpload.Controllers
                     return new HttpNotFoundResult();
                 }
 
-               
+                if (image.StudentPhoto !=null)
+                {
 
-                if (std.PhotoPath != null && std.PhotoPath.ContentLength > 0)
+                }
+
+                if (std.PhotoPath != null )
                 {
                     // TODO: clear previous image before saving the new one...
                     var uploadDir = "~/images";
